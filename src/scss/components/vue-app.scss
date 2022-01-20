@@ -1,9 +1,16 @@
 .vue-app-wrapper {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  height: calc(100vh - 92px);
   align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
+  justify-content: space-around;
   font-size: 50px;
+}
+.card{
+  border: 1px solid black;
+  max-width: 400px;
+  height: 600px;
+  margin: 20px;
+  text-align: center;
+
 }
