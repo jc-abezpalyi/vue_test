@@ -19,17 +19,6 @@ const vueApp = () => {
 
       data() {
         return {
-          initMessage: 'VueJS Sucessfully Started',
-          object: [{
-            title: 'How to do lists in Vue',
-            author: 'Jane Doe',
-            test: 'asdasdaddasd',
-          }, {
-            title: 'Howisdaisdiadiasidasiue',
-            author: 'Jane Doe',
-            test: 'asdasdaddasd',
-          },
-          ],
 
         };
       },
