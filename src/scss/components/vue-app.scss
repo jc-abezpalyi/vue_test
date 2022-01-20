@@ -1,10 +1,13 @@
 .vue-app-wrapper {
+}
+.cards_wrapper{
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   align-items: center;
   justify-content: space-around;
   font-size: 50px;
+  width: 100%;
+
 }
 .card{
   border: 1px solid black;
@@ -12,5 +15,7 @@
   height: 600px;
   margin: 20px;
   text-align: center;
-
+}
+.author__list-item{
+  cursor: pointer;
 }
