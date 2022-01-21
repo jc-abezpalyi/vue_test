@@ -2,67 +2,109 @@
 //
 // You can remove or add your own function in this file.
 
-import { posts } from './data';
-
 const vueApp = () => {
   if (Vue) {
     new Vue({
       el: '#app',
       template:
         `<div class="vue-app-wrapper"> 
-            <form >
+                <div class="title">
+                   <h1>Posts List</h1>
+                </div>
+               <div v-if="authorFilterList.length" class="catalog__settings-top-menu">
+               Filters:
+                  <div 
+                  @click="deleteFilterHandler(filterItem)"
+                  class="catalog__settings-filter-item"
+                  v-for="filterItem in authorFilterList"
+                  >
+                      {{filterItem}}
+                  </div>
+               </div>
+             <div class="catalog">
+              <div class="catalog__settings">
+                <div >
+                <span class="catalog__settings-title">Authors:{{getAuthors.length}}</span>
                 <div>
-                <input 
-                 v-model="inputValue"
-                 type="text">
-                <select v-model="filteredValue" >
-                  <option>userId</option>
-                  <option>status</option>
-                </select>
-                <div v-if="filteredValue === 'userId'">
-                    <span>author List:</span>
-                   <ul>
-                     <li v-for="author in authors" @click="test(author)" class="author__list-item">{{author}}</li>
+                  <ul>
+                      <li
+                        v-for="author in getAuthors"
+                        @click="authorHandler(author)"
+                        class="author__list-item">
+                        <label>
+                          {{author}}
+                       <input
+                        :value="author"
+                        v-model="authorFilterList"
+                        type="checkbox"
+                       >
+                         </label>
+                       </li>
                   </ul>
+                 </div>
                 </div>
-                </div>
-            </form>
+            </div>
             <div class="cards_wrapper">
-            <div
-             v-for="el in sortHiddenPosts"
-             :key="el.id"
-             class="card"
-            >  
-                <img :src="setImage(el)" alt="some image"> 
-                <h2>{{el.title}}</h2> 
-                <h2>{{el.userId}}</h2>  <!--   для наглядности работы фильтра -->
+             <template v-for="post in posts">
+                <div
+                  v-if="!authorFilterList.length || authorFilterList.includes(post.userId)"
+                  :key="post.id"
+                  class="card"
+                >
+                    <div class="card__img-wrapper">
+                        <img
+                         :src="setImage(post)"
+                          alt="some image"
+                          >                 
+                    </div>
+                    <div class="card__info-wrapper">
+                        <span class="card__title">{{post.title}}</span>
+                        <p class="card__title-description">{{post.body}}</p>
+                        <p class="card__title-description">{{post.userId}}</p>
+                    </div>
+                </div>
+             </template>
             </div>
-            </div>
+          </div>
         </div>`,
       data() {
         return {
-          posts:[],
+          posts: [],
           userPost: {},
-          filteredValue: 'userId',
-          inputValue: '',
           author: '',
-          authors: posts.reduce((unique, item) => unique.includes(item.userId) ? unique : [...unique, item.userId], []),
+          authorFilterList:[],
         };
       },
       methods: {
         setImage(post) {
-          return post.imgUrl || post.thumbnailUrl;
+          return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg';
+
         },
-        test(author) {
+        authorHandler(author) {
           this.inputValue = String(author);
-          console.log(this.posts)
         },
+        getPostsFromServer() {
+          fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(res => res.json())
+            .then(data => {
+              this.posts.push(...data);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        },
+        deleteFilterHandler(filterItem){
+          this.authorFilterList = this.authorFilterList.filter(el=> el!== filterItem)
+        }
       },
       computed: {
-        sortHiddenPosts() {
-          if (!this.inputValue) return posts.filter(el => el.status !== 'hidden');
-          return posts.filter(el => String(el[this.filteredValue]) === this.inputValue);
+        getAuthors() {
+          return this.posts.reduce((unique, item) => unique.includes(item.userId) ? unique : [...unique, item.userId], []);
         },
+      },
+      created() {
+        this.getPostsFromServer();
+
       },
     });
   }
