@@ -17,6 +17,7 @@ const vueApp = () => {
                   @click="deleteFilterHandler(filterItem)"
                   class="catalog__settings-filter-item"
                   v-for="filterItem in authorFilterList"
+                  
                   >
                       {{filterItem}}
                   </div>
@@ -29,7 +30,6 @@ const vueApp = () => {
                   <ul>
                       <li
                         v-for="author in getAuthors"
-                        @click="authorHandler(author)"
                         class="author__list-item">
                         <label>
                           {{author}}
@@ -73,15 +73,12 @@ const vueApp = () => {
           userPost: {},
           author: '',
           authorFilterList:[],
+          urlParams:[],
         };
       },
       methods: {
         setImage(post) {
           return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg';
-
-        },
-        authorHandler(author) {
-          this.inputValue = String(author);
         },
         getPostsFromServer() {
           fetch('https://jsonplaceholder.typicode.com/posts')
@@ -95,7 +92,13 @@ const vueApp = () => {
         },
         deleteFilterHandler(filterItem){
           this.authorFilterList = this.authorFilterList.filter(el=> el!== filterItem)
-        }
+        },
+        getUrlParam(){
+          const paramUserId = new URLSearchParams(window.location.search).get('userId')
+          if(paramUserId) {
+            this.authorFilterList = paramUserId.split(',').map(el => Number(el));
+          }
+        },
       },
       computed: {
         getAuthors() {
@@ -104,7 +107,13 @@ const vueApp = () => {
       },
       created() {
         this.getPostsFromServer();
-
+        this.getUrlParam();
+      },
+      watch:{
+        authorFilterList(value){
+          const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}`: document.location.origin
+          window.history.pushState({path:newurl},'', newurl)
+        }
       },
     });
   }
