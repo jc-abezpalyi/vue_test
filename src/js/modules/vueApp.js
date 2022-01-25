@@ -17,7 +17,6 @@ const vueApp = () => {
                   @click="deleteFilterHandler(filterItem)"
                   class="catalog__settings-filter-item"
                   v-for="filterItem in authorFilterList"
-                  
                   >
                       {{filterItem}}
                   </div>
@@ -27,6 +26,7 @@ const vueApp = () => {
                 <div >
                 <span class="catalog__settings-title">Authors:{{getAuthors.length}}</span>
                 <div>
+                <div class="search"> <input @keypress="filteredPosts" type="text" placeholder="search title" v-model="titleSearch"></div>
                   <ul>
                       <li
                         v-for="author in getAuthors"
@@ -72,6 +72,7 @@ const vueApp = () => {
           posts: [],
           userPost: {},
           author: '',
+          titleSearch:'',
           authorFilterList:[],
           urlParams:[],
         };
@@ -90,6 +91,11 @@ const vueApp = () => {
               console.log(err);
             });
         },
+        filteredPosts(){
+         this.posts = this.posts.filter((el) => {
+            return el.title.indexOf(this.titleSearch) !== -1
+          })
+        },
         deleteFilterHandler(filterItem){
           this.authorFilterList = this.authorFilterList.filter(el=> el!== filterItem)
         },
@@ -99,6 +105,12 @@ const vueApp = () => {
             this.authorFilterList = paramUserId.split(',').map(el => Number(el));
           }
         },
+        getUrlInputParam(){
+          const paramUserId = new URLSearchParams(window.location.search).get('query')
+          if(paramUserId) {
+            this.titleSearch = paramUserId;
+          }
+        }
       },
       computed: {
         getAuthors() {
@@ -108,13 +120,19 @@ const vueApp = () => {
       created() {
         this.getPostsFromServer();
         this.getUrlParam();
+        this.getUrlInputParam();
       },
       watch:{
         authorFilterList(value){
-          const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}`: document.location.origin
+          const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}`: document.location.origin
           window.history.pushState({path:newurl},'', newurl)
-        }
+        },
+        titleSearch(value){
+          const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}`: document.location.origin
+          window.history.pushState({path:newurl},'', newurl)
+        },
       },
+
     });
   }
 };
