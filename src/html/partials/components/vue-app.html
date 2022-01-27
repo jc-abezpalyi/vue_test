@@ -1,1 +1,84 @@
-<div id="app"></div>
+<div id="app">
+  <div class="vue-app-wrapper">
+    <div class="title">
+      <h1>Posts List</h1>
+    </div>
+    <div v-if="authorFilterList.length" class="catalog__settings-top-menu">
+      Filters:
+      <div
+        @click="deleteFilterHandler(filterItem)"
+        class="catalog__settings-filter-item"
+        v-for="filterItem in authorFilterList"
+      >
+        {{filterItem}}
+      </div>
+    </div>
+    <div class="catalog">
+      <div class="catalog__settings">
+        <div >
+          <span class="catalog__settings-title">Authors:{{getAuthors.length}}</span>
+          <div>
+            <div class="search">
+              <form action="" class="catalog__search-title-form">
+                <input
+                  @keypress="filteredPosts"
+                  type="text"
+                  pattern="^[a-zA-Z]+$"
+                  placeholder="search title"
+                  :class='(!$v.titleSearch.hasNumber && !$v.titleSearch.hasSimbol) ? "valid":"inValid" '
+                  v-model="titleSearch">
+
+                <button
+                  v-if="!$v.titleSearch.hasNumber && !$v.titleSearch.hasSimbol"
+                  type="submit"
+                >
+                  send
+                </button>
+              </form>
+              <span class="status-message">
+                   value valid: {{!$v.titleSearch.hasNumber && !$v.titleSearch.hasSimbol}}
+                 </span>
+            </div>
+            <ul class="catalog__author-list">
+              <li
+                v-for="author in getAuthors"
+                class="catalog__author-list-item">
+                <label>
+                  {{author}}
+                  <input
+                    :value="author"
+                    v-model="authorFilterList"
+                    type="checkbox"
+                  >
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="cards_wrapper">
+        <ul class="flex cards">
+        <template v-for="post in filteredPosts" >
+            <li
+              class="card"
+              v-if="!authorFilterList.length || authorFilterList.includes(post.userId)"
+              :key="post.id"
+            >
+              <div class="card__img-wrapper">
+                <img
+                  :src="getImage(post)"
+                  alt="some image"
+                >
+              </div>
+              <div class="card__info-wrapper">
+                <span class="card__title">{{post.title}}</span>
+                <p class="card__title-description">{{post.body}}</p>
+                <span class="card__author-id">{{post.userId}}</span>
+              </div>
+            </li>
+        </template>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
