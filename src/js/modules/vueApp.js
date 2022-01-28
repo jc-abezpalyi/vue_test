@@ -3,7 +3,7 @@
 // You can remove or add your own function in this file.
 import { validationMixin } from 'vuelidate';
 import { minLength } from 'vuelidate/lib/validators';
-import { hasSimbol, hasNumber } from './validators';
+import { hasNumber } from './validators';
 
 const vueApp = () => {
   if (!Vue) {
@@ -18,7 +18,6 @@ const vueApp = () => {
         userPost: {},
         author: '',
         titleSearch: '',
-        isValidSearch: true,
         authorFilterList: [],
         urlParams: [],
       };
@@ -27,17 +26,16 @@ const vueApp = () => {
     validations: {
       titleSearch: {
         minLength: minLength(1),
-        hasSimbol,
         hasNumber,
 
       },
     },
     methods: {
+      test(value) {
+        console.log(value);
+      },
       getImage(post) {
         return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg';
-      },
-      disabled() {
-        return this.isValidSearch ? 'disabled' : '';
       },
       getPostsFromServer() {
         fetch('https://jsonplaceholder.typicode.com/posts')
@@ -82,11 +80,11 @@ const vueApp = () => {
     },
     watch: {
       authorFilterList(value) {
-        const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}` : document.location.origin;
+        const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
         window.history.pushState({ path: newurl }, '', newurl);
       },
       titleSearch(value) {
-        const newurl = this.titleSearch.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
+        const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
         window.history.pushState({ path: newurl }, '', newurl);
       },
     },

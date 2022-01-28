@@ -19,24 +19,24 @@
           <span class="catalog__settings-title">Authors:{{getAuthors.length}}</span>
           <div>
             <div class="search">
-              <form action="" class="catalog__search-title-form">
+              <form class="catalog__search-title-form">
                 <input
                   @keypress="filteredPosts"
                   type="text"
-                  pattern="^[a-zA-Z]+$"
                   placeholder="search title"
-                  :class='(!$v.titleSearch.hasNumber && !$v.titleSearch.hasSimbol) ? "valid":"inValid" '
+                  :class='($v.titleSearch.hasNumber) ? "valid":"inValid" '
                   v-model="titleSearch">
 
+
                 <button
-                  v-if="!$v.titleSearch.hasNumber && !$v.titleSearch.hasSimbol"
+                  v-if="$v.titleSearch.hasNumber"
                   type="submit"
                 >
                   send
                 </button>
               </form>
               <span class="status-message">
-                   value valid: {{!$v.titleSearch.hasNumber && !$v.titleSearch.hasSimbol}}
+                   value valid: {{$v.titleSearch.hasNumber}}
                  </span>
             </div>
             <ul class="catalog__author-list">
