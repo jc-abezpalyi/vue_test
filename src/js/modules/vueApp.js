@@ -63,6 +63,17 @@ const vueApp = () => {
           this.titleSearch = paramUserId;
         }
       },
+      urlFilterinputHandler() {
+        console.log('worck!!!!');
+        const newurl = this.titleSearch.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
+        window.history.pushState({ path: newurl }, '', newurl);
+      },
+      urlFilterAuthorHandler() {
+        console.log('worc1111k!!!!');
+
+        const newurl = this.authorFilterList.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
+        window.history.pushState({ path: newurl }, '', newurl);
+      },
     },
     computed: {
       getAuthors() {
@@ -77,18 +88,6 @@ const vueApp = () => {
       this.getPostsFromServer();
       this.getUrlParam();
       this.getUrlInputParam();
-    },
-    watch: {
-      authorFilterList(value) {
-        console.log(value);
-        console.log(this.authorFilterList);
-        const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
-        window.history.pushState({ path: newurl }, '', newurl);
-      },
-      titleSearch(value) {
-        const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
-        window.history.pushState({ path: newurl }, '', newurl);
-      },
     },
   });
 };

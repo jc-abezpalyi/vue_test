@@ -3,7 +3,10 @@
     <div class="title">
       <h1>Posts List</h1>
     </div>
-    <div v-if="authorFilterList.length" class="catalog__settings-top-menu">
+    <div
+      v-if="authorFilterList.length"
+      class="catalog__settings-top-menu"
+    >
       Filters:
       <div
         @click="deleteFilterHandler(filterItem)"
@@ -23,9 +26,9 @@
                 <input
                   type="text"
                   placeholder="search title"
+                  @keyup="urlFilterinputHandler"
                   :class='($v.titleSearch.hasNumber) ? "valid":"inValid" '
                   v-model="titleSearch">
-
 
                 <button
                   v-if="$v.titleSearch.hasNumber"
@@ -48,6 +51,7 @@
                     :value="author"
                     v-model="authorFilterList"
                     type="checkbox"
+                    @change="urlFilterAuthorHandler"
                   >
                 </label>
               </li>
