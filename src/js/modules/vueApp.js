@@ -27,7 +27,6 @@ const vueApp = () => {
       titleSearch: {
         minLength: minLength(1),
         hasNumber,
-
       },
     },
     methods: {
@@ -64,14 +63,16 @@ const vueApp = () => {
         }
       },
       urlFilterinputHandler() {
-        console.log('worck!!!!');
-        const newurl = this.titleSearch.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
+        const newurl = this.titleSearch.length ? `
+          ${document.location.origin}?${this.authorFilterList.length ? 'userId=' : ''}${this.authorFilterList.join(',')}${this.titleSearch.length ? '&query=' : ''}${this.titleSearch}`
+          : document.location.href = document.location.href.replace('query=', '');
         window.history.pushState({ path: newurl }, '', newurl);
       },
       urlFilterAuthorHandler() {
-        console.log('worc1111k!!!!');
-
-        const newurl = this.authorFilterList.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
+        const params = new URLSearchParams(document.location.search);
+        const newurl = this.authorFilterList.length ? `
+          ${document.location.origin}?${this.authorFilterList.length ? 'userId=' : ''}${this.authorFilterList.join(',')}${this.titleSearch.length ? '&query=' : ''}${this.titleSearch}`
+          : document.location.href = document.location.href.replace('userId=', '');
         window.history.pushState({ path: newurl }, '', newurl);
       },
     },

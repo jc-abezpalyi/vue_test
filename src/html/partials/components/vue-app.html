@@ -12,6 +12,7 @@
         @click="deleteFilterHandler(filterItem)"
         class="catalog__settings-filter-item"
         v-for="filterItem in authorFilterList"
+        @click="deleteFilterHandler(filterItem)"
       >
         {{filterItem}}
       </div>
