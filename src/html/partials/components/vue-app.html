@@ -21,7 +21,6 @@
             <div class="search">
               <form class="catalog__search-title-form">
                 <input
-                  @keypress="filteredPosts"
                   type="text"
                   placeholder="search title"
                   :class='($v.titleSearch.hasNumber) ? "valid":"inValid" '

@@ -80,6 +80,8 @@ const vueApp = () => {
     },
     watch: {
       authorFilterList(value) {
+        console.log(value);
+        console.log(this.authorFilterList);
         const newurl = value.length ? `${document.location.origin}?userId=${this.authorFilterList.join(',')}&query=${this.titleSearch}` : document.location.origin;
         window.history.pushState({ path: newurl }, '', newurl);
       },
