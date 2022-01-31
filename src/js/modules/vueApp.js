@@ -3,7 +3,7 @@
 // You can remove or add your own function in this file.
 import { validationMixin } from 'vuelidate';
 import { minLength } from 'vuelidate/lib/validators';
-import { hasInputValidate } from './validators';
+import { hasInputValidation } from './validators';
 
 const vueApp = () => {
   if (!Vue) {
@@ -26,12 +26,12 @@ const vueApp = () => {
     validations: {
       titleSearch: {
         minLength: minLength(1),
-        hasInputValidate,
+        hasInputValidation,
       },
     },
     methods: {
       getImage(post) {
-        return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg';
+        return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg' || '../images/default.jpg' ;
       },
       getPostsFromServer() {
         fetch('https://jsonplaceholder.typicode.com/posts')

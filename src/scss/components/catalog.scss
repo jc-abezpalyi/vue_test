@@ -1,12 +1,3 @@
-
-
-.vue-app-wrapper {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.title{
-  margin: 20px 20px 0;
-}
 .catalog{
   display: flex;
   border: 1px solid darkgrey;
@@ -29,7 +20,6 @@
       display: flex;
       position: relative;
       justify-content: center;
-      align-items: center;
       border: 1px solid grey;
       margin: 10px;
       width: 100px;
@@ -53,12 +43,12 @@
     margin: 10px;
 
     .valid{
-      border: 1px solid green;
-      background-color: greenyellow;
+      border: 1px solid #018201;
+      background-color: #abfc2f;
     }
     .inValid{
-      border: 1px solid red;
-      background-color: indianred;
+      border: 1px solid #fa0202;
+      background-color: #c95a5a;
     }
   }
   &__author-list-item {
@@ -71,64 +61,3 @@
     padding-left: 10px;
   }
 }
-
-.cards_wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px;
-
-  .card {
-    border: 1px solid gray;
-    max-width: 300px;
-    transition: 0.3s;
-    position: relative;
-    margin: 10px;
-    &:hover{
-      transform: scale(1.1);
-    }
-
-    &__info-wrapper {
-      padding: 16px;
-      left: 0;
-    }
-
-    &__img-wrapper {
-      width: 100%;
-    }
-
-    &__title {
-      display: inline-block;
-      margin-bottom: 10px;
-      font-size: 14px;
-      font-weight: bold;
-
-      &-description {
-        font-size: 18px;
-      }
-    }
-    .card__author-id{
-      position: absolute;
-      right: 5px;
-      bottom: 3px;
-    }
-  }
-  .cards {
-    display: flex;
-    list-style: none;
-    padding: 0;
-  }
-
-  .flex {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-}
-
-
-
-
-
-
-
-

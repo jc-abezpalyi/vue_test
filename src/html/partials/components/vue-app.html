@@ -9,7 +9,6 @@
     >
       Filters:
       <div
-        @click="deleteFilterHandler(filterItem)"
         class="catalog__settings-filter-item"
         v-for="filterItem in authorFilterList"
         @click="deleteFilterHandler(filterItem)"
@@ -28,19 +27,19 @@
                   type="text"
                   placeholder="search title"
                   @keyup="urlFilterinputHandler"
-                  :class='($v.titleSearch.hasNumber) ? "valid":"inValid" '
+                  :class='($v.titleSearch.hasInputValidation) ? "valid":"inValid" '
                   v-model="titleSearch">
 
                 <button
-                  v-if="$v.titleSearch.hasNumber"
+                  v-if="$v.titleSearch.hasInputValidation"
                   type="submit"
                 >
                   send
                 </button>
               </form>
               <span class="status-message">
-                   value valid: {{$v.titleSearch.hasNumber}}
-                 </span>
+                   value valid: {{$v.titleSearch.hasInputValidation}}
+              </span>
             </div>
             <ul class="catalog__author-list">
               <li
