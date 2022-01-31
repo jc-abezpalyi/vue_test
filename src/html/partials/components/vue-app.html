@@ -27,7 +27,7 @@
                   type="text"
                   placeholder="search title"
                   @keyup="urlFilterinputHandler"
-                  :class='($v.titleSearch.hasInputValidation) ? "valid":"inValid" '
+                  :class="[$v.titleSearch.hasInputValidation ? 'valid' : 'inValid']"
                   v-model="titleSearch">
 
                 <button
