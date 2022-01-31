@@ -31,7 +31,7 @@ const vueApp = () => {
     },
     methods: {
       getImage(post) {
-        return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg' || '../images/default.jpg' ;
+        return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg' || '../images/default.jpg';
       },
       getPostsFromServer() {
         fetch('https://jsonplaceholder.typicode.com/posts')
@@ -40,7 +40,7 @@ const vueApp = () => {
             this.posts = [...data];
           })
           .catch((err) => {
-            console.log(err);
+            throw err;
           });
       },
 
@@ -66,7 +66,6 @@ const vueApp = () => {
         window.history.pushState({ path: newurl }, '', newurl);
       },
       urlFilterAuthorHandler() {
-        const params = new URLSearchParams(document.location.search);
         const newurl = this.authorFilterList.length ? `
           ${document.location.origin}?${this.authorFilterList.length ? 'userId=' : ''}${this.authorFilterList.join(',')}${this.titleSearch.length ? '&query=' : ''}${this.titleSearch}`
           : document.location.href = document.location.href.replace('userId=', '');
