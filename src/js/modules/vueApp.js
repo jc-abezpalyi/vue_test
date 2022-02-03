@@ -14,6 +14,8 @@ const vueApp = () => {
     el: '#app',
     data() {
       return {
+        searchParams: null,
+        defaultSearchParam: ['userId', 'query'],
         posts: [],
         userPost: {},
         author: '',
@@ -29,7 +31,23 @@ const vueApp = () => {
         hasInputValidation,
       },
     },
+    created() {
+      this.getPostsFromServer();
+      this.getParams();
+      this.bindUrlParams();
+    },
     methods: {
+      bindUrlParams() {
+        if (this.searchParams.get('userId')) {
+          this.authorFilterList = [...this.searchParams.get('userId').split('-')].map((el) => Number(el));
+        }
+        if (this.searchParams.get('query')) {
+          this.titleSearch = this.searchParams.get('query');
+        }
+      },
+      getParams() {
+        this.searchParams = new URLSearchParams(window.location.search);
+      },
       getImage(post) {
         return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg' || '../images/default.jpg';
       },
@@ -43,33 +61,22 @@ const vueApp = () => {
             throw err;
           });
       },
-
       deleteFilterHandler(filterItem) {
         this.authorFilterList = this.authorFilterList.filter((el) => el !== filterItem);
       },
-      getUrlParam() {
-        const paramUserId = new URLSearchParams(window.location.search).get('userId');
-        if (paramUserId) {
-          this.authorFilterList = paramUserId.split(',').map((el) => Number(el));
-        }
-      },
-      getUrlInputParam() {
-        const paramUserId = new URLSearchParams(window.location.search).get('query');
-        if (paramUserId) {
-          this.titleSearch = paramUserId;
-        }
-      },
-      urlFilterinputHandler() {
-        const newurl = this.titleSearch.length ? `
-          ${document.location.origin}?${this.authorFilterList.length ? 'userId=' : ''}${this.authorFilterList.join(',')}${this.titleSearch.length ? '&query=' : ''}${this.titleSearch}`
-          : document.location.href = document.location.href.replace('query=', '');
-        window.history.pushState({ path: newurl }, '', newurl);
-      },
-      urlFilterAuthorHandler() {
-        const newurl = this.authorFilterList.length ? `
-          ${document.location.origin}?${this.authorFilterList.length ? 'userId=' : ''}${this.authorFilterList.join(',')}${this.titleSearch.length ? '&query=' : ''}${this.titleSearch}`
-          : document.location.href = document.location.href.replace('userId=', '');
-        window.history.pushState({ path: newurl }, '', newurl);
+      urlParamsHandler() {
+        this.defaultSearchParam.forEach((param) => {
+          this.searchParams.delete(param);
+          if (this.titleSearch) {
+            this.searchParams.delete('query');
+            this.searchParams.append('query', this.titleSearch);
+          }
+          if (this.authorFilterList.length) {
+            this.searchParams.delete('userId');
+            this.searchParams.append('userId', this.authorFilterList.join('-'));
+          }
+        });
+        window.history.pushState({ path: `?${this.searchParams.toString()}` }, '', `?${this.searchParams.toString()}`);
       },
     },
     computed: {
@@ -80,11 +87,6 @@ const vueApp = () => {
       filteredPosts() {
         return this.posts.filter((el) => el.title.includes(this.titleSearch));
       },
-    },
-    created() {
-      this.getPostsFromServer();
-      this.getUrlParam();
-      this.getUrlInputParam();
     },
   });
 };

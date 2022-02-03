@@ -26,13 +26,12 @@
                 <input
                   type="text"
                   placeholder="search title"
-                  @keyup="urlFilterinputHandler"
                   :class="[$v.titleSearch.hasInputValidation ? 'valid' : 'inValid']"
                   v-model="titleSearch">
-
                 <button
                   v-if="$v.titleSearch.hasInputValidation"
                   type="submit"
+                  @click.prevent="urlParamsHandler"
                 >
                   send
                 </button>
@@ -51,7 +50,6 @@
                     :value="author"
                     v-model="authorFilterList"
                     type="checkbox"
-                    @change="urlFilterAuthorHandler"
                   >
                 </label>
               </li>

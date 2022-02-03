@@ -2,7 +2,7 @@
   display: flex;
   border: 1px solid #a7a6a6;
   &__settings {
-    border-right: 1px solid grey;
+    border-right: 1px solid #7f7e7e;
     max-width: 300px;
     &-title {
       display: inline-block;
@@ -20,6 +20,7 @@
       display: flex;
       position: relative;
       justify-content: center;
+      align-items: center;
       border: 1px solid #7f7e7e;
       margin: 10px;
       width: 100px;
@@ -34,7 +35,6 @@
         content:'X';
         position: absolute;
         right: 10px;
-
       }
     }
   }
