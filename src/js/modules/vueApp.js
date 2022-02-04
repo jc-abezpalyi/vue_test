@@ -39,7 +39,7 @@ const vueApp = () => {
     methods: {
       bindUrlParams() {
         if (this.searchParams.get('userId')) {
-          this.authorFilterList = [...this.searchParams.get('userId').split('-')].map((el) => Number(el));
+          this.authorFilterList = [...this.searchParams.get('userId').split(',')].map((el) => Number(el));
         }
         if (this.searchParams.get('query')) {
           this.titleSearch = this.searchParams.get('query');
@@ -49,7 +49,7 @@ const vueApp = () => {
         this.searchParams = new URLSearchParams(window.location.search);
       },
       getImage(post) {
-        return post.imgUrl || post.thumbnailUrl || 'https://content.rozetka.com.ua/goods/images/big_tile/236753133.jpg' || '../images/default.jpg';
+        return post.imgUrl || post.thumbnailUrl  || '../images/default.jpg';
       },
       getPostsFromServer() {
         fetch('https://jsonplaceholder.typicode.com/posts')
@@ -73,11 +73,22 @@ const vueApp = () => {
           }
           if (this.authorFilterList.length) {
             this.searchParams.delete('userId');
-            this.searchParams.append('userId', this.authorFilterList.join('-'));
+            this.searchParams.append('userId', this.authorFilterList.join(','));
           }
         });
         window.history.pushState({ path: `?${this.searchParams.toString()}` }, '', `?${this.searchParams.toString()}`);
       },
+      checkBoxUrlParam(){
+
+        this.defaultSearchParam.forEach((param) => {
+          this.searchParams.delete(param);
+          if (this.authorFilterList.length) {
+            this.searchParams.delete('userId');
+            this.searchParams.append('userId', this.authorFilterList.join(','));
+          }
+        });
+        window.history.pushState({ path: `?${this.searchParams.toString()}` }, '', `?${this.searchParams.toString()}`);
+      }
     },
     computed: {
       getAuthors() {

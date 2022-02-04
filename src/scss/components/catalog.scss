@@ -1,22 +1,30 @@
-.catalog{
+.catalog {
   display: flex;
+  max-width: 1600px;
+  margin: 0 auto;
   border: 1px solid #a7a6a6;
+
   &__settings {
     border-right: 1px solid #7f7e7e;
     max-width: 300px;
+
     &-title {
       display: inline-block;
       color: #3e77aa;
       font-size: 16px;
       margin: 15px 15px 5px;
     }
-    &-top-menu{
+
+    &-top-menu {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       font-weight: bold;
+      max-width: 1600px;
+      margin: 10px auto 0;
     }
-    &-filter-item{
+
+    &-filter-item {
       display: flex;
       position: relative;
       justify-content: center;
@@ -28,36 +36,39 @@
       border-radius: 30px;
       cursor: pointer;
       transition: background-color 0.3s;
-      &:hover{
+
+      &:hover {
         background-color: #8cba8c;
       }
-      &:after{
-        content:'X';
+
+      &:after {
+        content: 'X';
         position: absolute;
         right: 10px;
       }
     }
   }
-  &__search-title-form{
+
+  &__search-title-form {
     display: flex;
     margin: 10px;
 
-    .valid{
+    .valid {
       border: 1px solid #018201;
       background-color: #abfc2f;
     }
-    .inValid{
+
+    .inValid {
       border: 1px solid #fa0202;
       background-color: #c95a5a;
     }
   }
+
   &__author-list-item {
     list-style: none;
   }
-  &__author-list{
-    padding-left: 10px;
-  }
-  .status-message{
+
+  &__author-list {
     padding-left: 10px;
   }
 }

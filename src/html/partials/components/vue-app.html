@@ -36,9 +36,6 @@
                   send
                 </button>
               </form>
-              <span class="status-message">
-                   value valid: {{$v.titleSearch.hasInputValidation}}
-              </span>
             </div>
             <ul class="catalog__author-list">
               <li
@@ -50,6 +47,7 @@
                     :value="author"
                     v-model="authorFilterList"
                     type="checkbox"
+                    @change="checkBoxUrlParam"
                   >
                 </label>
               </li>
